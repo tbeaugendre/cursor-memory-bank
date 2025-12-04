@@ -6,21 +6,21 @@ alwaysApply: false
 # 🔍 ISOLATION-FOCUSED MEMORY BANK SYSTEM
 
 🚨 CRITICAL RULE: MEMORY BANK CREATION IS MANDATORY 🚨
-Memory Bank MUST be created BEFORE any other operation in ANY mode
+Memory Bank MUST be created BEFORE any other operation in ANY command
 NO process can continue without verifying Memory Bank existence
 
-> **TL;DR:** This system is designed to work with Cursor custom modes, where each mode loads only the rules it needs. The system uses visual Mermaid diagrams and selective document loading to optimize context usage.
+> **TL;DR:** This system is designed to work with Cursor Commands (slash commands), where each command loads only the rules it needs. The system uses visual Mermaid diagrams and selective document loading to optimize context usage.
 
-## 🧭 MODE-SPECIFIC VISUAL MAPS
+## 🧭 COMMAND-BASED VISUAL MAPS
 
 ```mermaid
 graph TD
-    subgraph Modes["Cursor Custom Modes"]
-        VAN["VAN MODE<br>Initialization"] --> PLAN["PLAN MODE<br>Task Planning"]
-        PLAN --> Creative["CREATIVE MODE<br>Design Decisions"]
-        Creative --> Implement["IMPLEMENT MODE<br>Code Implementation"]
-        Implement --> Reflect["REFLECT MODE<br>Task Review"]
-        Reflect --> Archive["ARCHIVE MODE<br>Documentation"]
+    subgraph Commands["Cursor Slash Commands"]
+        VAN["/van<br>Initialization"] --> PLAN["/plan<br>Task Planning"]
+        PLAN --> Creative["/creative<br>Design Decisions"]
+        Creative --> Implement["/implement<br>Code Implementation"]
+        Implement --> Reflect["/reflect<br>Task Review"]
+        Reflect --> Archive["/archive<br>Documentation"]
     end
     
     VAN -.->|"Loads"| VANRules["• main.md<br>• platform-awareness.md<br>• file-verification.md<br>• workflow-init.md"]
@@ -29,13 +29,15 @@ graph TD
     Implement -.->|"Loads"| ImplementRules["• main.md<br>• command-execution.md<br>• implementation-guide.md"]
     Reflect -.->|"Loads"| ReflectRules["• main.md<br>• reflection-format.md"]
     Archive -.->|"Loads"| ArchiveRules["• main.md<br>• archiving-guide.md"]
+    
+    QA["/qa<br>Quality Assurance"] -.->|"Can be called<br>from any point"| VAN & PLAN & Creative & Implement & Reflect
 ```
 
-## 📋 MEMORY BANK VERIFICATION - MANDATORY IN ALL MODES
+## 📋 MEMORY BANK VERIFICATION - MANDATORY IN ALL COMMANDS
 
 ```mermaid
 graph TD
-    Start["Mode Activation"] --> CheckMemBank{"Memory Bank<br>Exists?"}
+    Start["Command Activation"] --> CheckMemBank{"Memory Bank<br>Exists?"}
     
     CheckMemBank -->|"No"| CreateMemBank["CREATE MEMORY BANK<br>[CRITICAL STEP]"]
     CheckMemBank -->|"Yes"| VerifyMemBank["Verify Memory Bank<br>Structure"]
@@ -46,11 +48,11 @@ graph TD
     
     VerifyMemBank --> StructureCheck{"Structure<br>Valid?"}
     StructureCheck -->|"No"| FixStructure["Fix Memory Bank<br>Structure"]
-    StructureCheck -->|"Yes"| ContinueMode["Continue with<br>Mode Operations"]
+    StructureCheck -->|"Yes"| ContinueCommand["Continue with<br>Command Operations"]
     
     FixStructure --> VerifyFix{"Fix<br>Successful?"}
     VerifyFix -->|"No"| AbortAll
-    VerifyFix -->|"Yes"| ContinueMode
+    VerifyFix -->|"Yes"| ContinueCommand
     
     style CheckMemBank fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
     style CreateMemBank fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
@@ -63,18 +65,18 @@ graph TD
 
 ## 📚 VISUAL PROCESS MAPS
 
-Each mode has its own visual process map:
+Each command has its own visual process map:
 
-- @VAN Mode Map
-- @PLAN Mode Map
-- @CREATIVE Mode Map
-- @IMPLEMENT Mode Map
-- @REFLECT Mode Map
-- @ARCHIVE Mode Map
+- @VAN Mode Map - `/van` initialization
+- @PLAN Mode Map - `/plan` task planning
+- @CREATIVE Mode Map - `/creative` design decisions
+- @IMPLEMENT Mode Map - `/implement` code implementation
+- @REFLECT Mode Map - `/reflect` task review
+- @ARCHIVE Mode Map - `/archive` documentation
 
 ## 🔄 FILE STATE VERIFICATION
 
-In this isolation-focused approach, Memory Bank files maintain continuity between modes:
+In this isolation-focused approach, Memory Bank files maintain continuity between commands:
 
 ```mermaid
 graph TD
@@ -85,50 +87,49 @@ graph TD
         progress["progress.md<br>Implementation Status"]
     end
     
-    VAN["VAN MODE"] -->|"Creates/Updates"| tasks
+    VAN["/van"] -->|"Creates/Updates"| tasks
     VAN -->|"Creates/Updates"| active
     
-    PLAN["PLAN MODE"] -->|"Reads"| tasks
+    PLAN["/plan"] -->|"Reads"| tasks
     PLAN -->|"Reads"| active
     PLAN -->|"Updates"| tasks
     
-    Creative["CREATIVE MODE"] -->|"Reads"| tasks
+    Creative["/creative"] -->|"Reads"| tasks
     Creative -->|"Creates"| creative
     Creative -->|"Updates"| tasks
     
-    Implement["IMPLEMENT MODE"] -->|"Reads"| tasks
+    Implement["/implement"] -->|"Reads"| tasks
     Implement -->|"Reads"| creative
     Implement -->|"Updates"| tasks
     Implement -->|"Updates"| progress
     
-    Reflect["REFLECT MODE"] -->|"Reads"| tasks
+    Reflect["/reflect"] -->|"Reads"| tasks
     Reflect -->|"Reads"| progress
     Reflect -->|"Updates"| tasks
     
-    Archive["ARCHIVE MODE"] -->|"Reads"| tasks
+    Archive["/archive"] -->|"Reads"| tasks
     Archive -->|"Reads"| progress
     Archive -->|"Archives"| creative
 ```
 
-## 📋 MODE TRANSITION PROTOCOL
+## 📋 COMMAND TRANSITION PROTOCOL
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant CurrentMode
-    participant NextMode
+    participant CurrentCmd as Current Command
+    participant NextCmd as Next Command
     
-    CurrentMode->>CurrentMode: Complete Phase Requirements
-    CurrentMode->>User: "Phase complete. NEXT MODE: [mode name]"
-    User->>CurrentMode: End Current Mode
-    User->>NextMode: Start Next Mode
-    NextMode->>NextMode: Verify Required File State
+    CurrentCmd->>CurrentCmd: Complete Phase Requirements
+    CurrentCmd->>User: "Phase complete. NEXT: /[command]"
+    User->>NextCmd: Execute Next Command
+    NextCmd->>NextCmd: Verify Required File State
     
     alt File State Valid
-        NextMode->>User: "Continuing from previous mode..."
+        NextCmd->>User: "Continuing from previous phase..."
     else File State Invalid
-        NextMode->>User: "Required files not in expected state"
-        NextMode->>User: "Return to [previous mode] to complete requirements"
+        NextCmd->>User: "Required files not in expected state"
+        NextCmd->>User: "Run /[previous command] to complete requirements"
     end
 ```
 
@@ -153,4 +154,14 @@ grep "TODO" $(find . -name "*.js")
 npm install && npm start
 ```
 
-Refer to [command-execution.mdc](mdc:.cursor/rules/isolation_rules/Core/command-execution.mdc) for detailed guidance. 
+Refer to [command-execution.mdc](mdc:.cursor/rules/isolation_rules/Core/command-execution.mdc) for detailed guidance.
+
+## 🚀 QUICK START
+
+1. **Start a task**: Type `/van` in chat to initialize
+2. **Plan the work**: Type `/plan` to create implementation plan
+3. **Design decisions**: Type `/creative` for complex design work
+4. **Build it**: Type `/implement` to execute the plan
+5. **Review**: Type `/reflect` to capture learnings
+6. **Document**: Type `/archive` to complete the task
+7. **Validate**: Type `/qa` at any point for quality checks

@@ -2,6 +2,128 @@
 
 > **Personal Note**: Memory Bank is my personal hobby project that I develop for my own use in coding projects. As this is a personal project, I don't maintain an issues tracker or actively collect feedback. However, if you're using these rules and encounter issues, one of the great advantages is that you can ask the Cursor AI directly to modify or update the rules to better suit your specific workflow. The system is designed to be adaptable by the AI, allowing you to customize it for your own needs without requiring external support.
 
+## Version 0.8 - Command-Based Workflow (Cursor 2.1+ Compatible)
+
+> **Breaking Change**: This release migrates from Custom Modes (deprecated in Cursor 2.1) to Slash Commands. Users of v0.7 and earlier must migrate to the new command system.
+
+### 🚨 Migration Required
+
+Custom Modes have been deprecated in Cursor 2.1. This release introduces a new command-based workflow:
+
+| Old (Custom Modes) | New (Commands) |
+|-------------------|----------------|
+| Switch to VAN mode, type "VAN" | Type `/van` |
+| Switch to PLAN mode, type "PLAN" | Type `/plan` |
+| Switch to CREATIVE mode | Type `/creative` |
+| Switch to IMPLEMENT mode | Type `/implement` |
+| Switch to REFLECT mode | Type `/reflect` |
+| QA from any mode | Type `/qa` |
+
+### 🌟 Major Features
+
+#### Slash Command System _(New)_
+- Simple `/command` syntax for all operations
+- No mode switching required
+- Commands stored in `.cursor/commands/` directory
+- Per-project command customization
+
+#### New Commands
+- `/van` - Project initialization and complexity assessment
+- `/plan` - Implementation planning
+- `/creative` - Design decision exploration
+- `/implement` - Code implementation
+- `/reflect` - Task review and learning capture
+- `/archive` - Final documentation and task closure
+- `/qa` - Quality assurance validation (callable anytime)
+
+#### Simplified Installation _(Enhanced)_
+- No UI configuration required
+- Copy `.cursor/` folder to project
+- Commands automatically available
+- Works across all Cursor 2.1+ installations
+
+### 🔄 Workflow Improvements
+
+#### Unified Command Interface
+- All commands accessible via `/` prefix
+- Consistent experience across all phases
+- No context switching between modes
+- Streamlined command discovery
+
+#### Enhanced QA Integration
+- `/qa` now a standalone command
+- Can be called at any workflow stage
+- Environment, dependency, config, and build validation
+- Actionable fix suggestions
+
+### 📚 Documentation Updates
+
+#### Updated README
+- Complete migration guide from Custom Modes
+- New command reference table
+- Updated workflow diagrams
+- Troubleshooting for command issues
+
+#### Command Documentation
+- Each command has comprehensive markdown documentation
+- Includes workflow diagrams, templates, and examples
+- Self-contained instructions in each command file
+
+### 🛠 Technical Changes
+
+#### File Structure
+```
+.cursor/
+├── commands/           ← NEW: Command definitions
+│   ├── van.md
+│   ├── plan.md
+│   ├── creative.md
+│   ├── implement.md
+│   ├── reflect.md
+│   ├── archive.md
+│   └── qa.md
+└── rules/              ← UNCHANGED: Rule definitions
+    └── isolation_rules/
+```
+
+#### Updated Rules
+- `main.mdc` updated to reference commands instead of modes
+- Visual maps updated with command syntax
+- Transition protocols updated for command workflow
+
+### 📋 Migration Steps
+
+1. **Update Cursor** to version 2.1 or higher
+2. **Copy new `.cursor/commands/` folder** to your project
+3. **Update `.cursor/rules/isolation_rules/main.mdc`** if customized
+4. **Remove old Custom Modes** from Cursor settings (optional, they're ignored)
+5. **Use `/command` syntax** in chat
+
+### 📋 Known Issues
+- None reported in current release
+
+### 🔜 Upcoming Features
+- Command aliases and shortcuts
+- Multi-command chaining
+- Project templates with pre-configured commands
+- Team command sharing
+
+### 📝 Notes
+- Requires Cursor version 2.1 or higher
+- Backward compatible with existing memory-bank/ data
+- Custom Modes configuration can be removed (no longer used)
+- All v0.7 token optimizations preserved
+
+### 🔧 Requirements
+- Requires Cursor version **2.1 or higher**
+- Compatible with Claude 4 Sonnet (recommended) and Claude 4 Opus
+- Compatible with existing Memory Bank v0.7 data files
+
+---
+Released on: December 2024
+
+---
+
 ## Version 0.7-beta - Token-Optimized Workflows
 
 > Building upon the architectural foundations established in v0.6-beta.1, this release introduces significant token efficiency optimizations and enhanced workflow capabilities with substantial improvements in context management.
